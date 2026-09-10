@@ -1,33 +1,97 @@
-# 🚗 CRUD de Veículos com PHP & PDO
+# CRUD de Veículos com PHP e PDO
 
-Este repositório contém uma aplicação web completa para o gerenciamento de veículos, desenvolvida em **PHP estruturado** integrado ao banco de dados **MySQL**. O projeto foi construído como parte de uma avaliação prática de desenvolvimento backend.
+Aplicação web acadêmica para gerenciamento de veículos, desenvolvida em **PHP estruturado** com persistência em **MySQL** através de **PDO**.
 
-O foco principal foi implementar todas as operações fundamentais de um banco de dados (**CRUD**) seguindo padrões rígidos de arquitetura nativa e segurança.
+O projeto foi criado para praticar operações CRUD, validação no backend, consultas parametrizadas e separação simples entre formulários e scripts de processamento.
 
-## 🛠️ Tecnologias e Recursos Utilizados
+## Funcionalidades
 
-* **PHP 8.x:** Linguagem base para a lógica do servidor e renderização dinâmica de dados.
-* **MySQL:** Banco de dados relacional para persistência das informações de placas, modelos e anos dos veículos.
-* **PDO (PHP Data Objects):** Abstração de banco de dados robusta para consultas seguras.
-* **Prepared Statements:** Implementado em todas as querys de mutação (`INSERT`, `UPDATE`, `DELETE`) para garantir proteção total contra ataques de **SQL Injection**.
-* **Sanitização de Dados:** Uso estratégico de `htmlspecialchars()` na listagem para prevenir vulnerabilidades de **XSS (Cross-Site Scripting)**.
+- listar veículos cadastrados;
+- cadastrar veículo;
+- editar veículo existente;
+- excluir veículo através de requisição `POST` com confirmação na interface;
+- validar ID, placa, modelo e ano no backend;
+- interface responsiva para desktop e celular.
 
-## ⚙️ Funcionalidades do Sistema
+## Tecnologias
 
-1. **Listagem Principal (`index.php`)**: Exibe uma tabela com todos os veículos cadastrados no banco de dados e oferece ações rápidas para edição e exclusão.
-2. **Cadastro (`veiculos.create.*`)**: Interface amigável com validação de campos obrigatórios via backend antes de persistir os dados no banco.
-3. **Edição (`veiculos.edit.*`)**: Recupera dinamicamente os dados do veículo selecionado via parâmetro `GET`, preenche o formulário e executa a atualização via `POST`.
-4. **Exclusão (`veiculos.delete.process.php`)**: Remove o registro do banco de dados através do ID enviado, contando com uma camada extra de confirmação via JavaScript direto na interface do usuário.
+- PHP 8.x
+- MySQL
+- PDO
+- HTML5
+- CSS3
 
-## 📁 Organização do Projeto
+## Boas práticas aplicadas
 
-A estrutura de arquivos foi dividida de forma limpa entre visualizações (views) e scripts de processamento interno:
+- prepared statements nas operações com dados fornecidos pelo usuário;
+- `htmlspecialchars()` ao renderizar dados do banco no HTML;
+- exclusão realizada via `POST`, evitando alteração de estado através de links `GET`;
+- validação de IDs com `FILTER_VALIDATE_INT`;
+- configuração de banco por variáveis de ambiente, com valores locais de fallback;
+- `PDO::ATTR_EMULATE_PREPARES = false`;
+- mensagem de erro de conexão sem expor detalhes internos do banco ao navegador.
+
+Essas medidas reduzem riscos comuns, mas não são apresentadas como "proteção total". Uma aplicação de produção ainda exigiria controles adicionais, como autenticação, autorização e proteção CSRF.
+
+## Estrutura
 
 ```text
-├── db.connection.php           # Configuração e inicialização da conexão PDO com tratamento de erros
-├── index.php                   # Tela principal de listagem (Read)
-├── veiculos.create.view.php    # Formulário HTML de cadastro (Create)
-├── veiculos.create.process.php # Processamento e inserção no banco de dados
-├── veiculos.edit.view.php      # Formulário HTML de edição populado dinamicamente
-├── veiculos.edit.process.php   # Processamento e atualização no banco de dados (Update)
-└── veiculos.delete.process.php # Processamento de remoção de registros (Delete)
+CRUD-em-PHP-PDO/
+├── database.sql
+├── README.md
+└── TPA_E1_3E2_02_Alvaro_Pires_De_Souza/
+    ├── db.connection.php
+    ├── index.php
+    ├── style.css
+    ├── veiculos.create.view.php
+    ├── veiculos.create.process.php
+    ├── veiculos.edit.view.php
+    ├── veiculos.edit.process.php
+    └── veiculos.delete.process.php
+```
+
+## Banco de dados
+
+O arquivo `database.sql` cria o banco `prova_crud` e a tabela `veiculos`.
+
+```bash
+mysql -u root -p < database.sql
+```
+
+A conexão aceita as seguintes variáveis de ambiente:
+
+```text
+DB_HOST
+DB_NAME
+DB_USER
+DB_PASSWORD
+```
+
+Sem essas variáveis, o projeto utiliza os valores locais originais da atividade: `localhost`, banco `prova_crud` e usuário `root`.
+
+## Como executar
+
+1. Clone o repositório.
+2. Importe `database.sql` no MySQL.
+3. Configure as variáveis de ambiente, caso necessário.
+4. Entre na pasta da aplicação.
+5. Inicie o servidor embutido do PHP:
+
+```bash
+cd TPA_E1_3E2_02_Alvaro_Pires_De_Souza
+php -S localhost:8000
+```
+
+6. Acesse `http://localhost:8000` no navegador.
+
+## Contexto
+
+Projeto acadêmico desenvolvido durante minha formação técnica em TI para praticar PHP, PDO, MySQL, CRUD e segurança básica em aplicações web.
+
+## Autor
+
+**Álvaro Pires de Souza**
+
+- GitHub: https://github.com/Alvaro3105
+- LinkedIn: https://www.linkedin.com/in/alvaro-pires-de-souza/
+- Portfólio: https://alvaro3105.github.io/Portfolio/
