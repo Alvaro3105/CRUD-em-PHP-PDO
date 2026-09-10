@@ -1,20 +1,22 @@
 <?php
 
-require 'db.connection.php'; 
+require 'db.connection.php';
 
-$id = $_GET['id'] ?? null; 
-
-if (!$id) {
-    die('ID inválido.');
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(405);
+    exit('Método não permitido.');
 }
 
-$sql = "DELETE FROM veiculos WHERE id = :id"; 
+$id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
 
-$stmt = $pdo->prepare($sql); 
+if (!$id) {
+    http_response_code(400);
+    exit('ID inválido.');
+}
 
-$stmt->execute([
-    ':id' => $id 
-]);
+$sql = "DELETE FROM veiculos WHERE id = :id";
+$stmt = $pdo->prepare($sql);
+$stmt->execute([':id' => $id]);
 
 header('Location: index.php');
 exit;
